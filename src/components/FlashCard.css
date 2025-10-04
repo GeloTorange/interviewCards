@@ -2,6 +2,23 @@
 .flashcard-wrapper {
   perspective: 1200px;
   width: 100%;
+  transform: translateZ(0);
+}
+
+.flashcard-wrapper.entering {
+  animation: flashcardEnter 0.28s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes flashcardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .flashcard-motion {
@@ -79,7 +96,7 @@
   }
 
   .flashcard {
-    height: 300px;
+    height: 288px;
   }
 
   .flashcard-face {
@@ -88,5 +105,20 @@
 
   .flashcard p {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .flashcard {
+    height: 260px;
+  }
+
+  .flashcard-face {
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .flashcard p {
+    font-size: 0.98rem;
   }
 }

@@ -1,11 +1,12 @@
 .card-session {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   align-items: center;
   width: 100%;
   max-width: 640px;
   margin: 0 auto;
+  flex: 1;
 }
 
 .session-meta {
@@ -65,7 +66,7 @@
   justify-content: center;
   max-width: 520px;
   margin: 0 auto;
-  padding: 24px 16px 32px;
+  padding: 20px 12px 28px;
 }
 
 .card-stage-shadow {
@@ -114,7 +115,7 @@
 
 @media (max-width: 768px) {
   .card-session {
-    gap: 20px;
+    gap: 18px;
   }
 
   .session-meta {
@@ -142,7 +143,7 @@
   }
 
   .card-stage {
-    padding: 16px 0 24px;
+    padding: 16px 0 22px;
   }
 
   .card-stage-shadow {
@@ -167,6 +168,10 @@
 
   .session-actions .ghost {
     padding: 10px 16px;
+  }
+
+  .card-stage {
+    padding: 12px 0 16px;
   }
 
   .card-stage-shadow {
