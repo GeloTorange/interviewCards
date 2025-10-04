@@ -193,7 +193,7 @@ export default function FlashCard({
           </div>
           <div className="flashcard-face flashcard-back">
             <p>{question.answer}</p>
-            <span className="hint">Свайпните влево, чтобы перейти дальше, или вправо — чтобы вернуться</span>
+            <span className="hint">Нажмите, чтобы вернуться к вопросу</span>
           </div>
         </div>
       </div>
