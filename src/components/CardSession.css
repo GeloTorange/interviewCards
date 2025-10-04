@@ -27,6 +27,12 @@
   max-width: 520px;
 }
 
+.session-summary {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
 .session-actions {
   display: flex;
   align-items: center;
@@ -92,6 +98,14 @@
   font-size: 0.95rem;
 }
 
+.session-empty {
+  background-color: rgba(148, 163, 184, 0.16);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  color: #334155;
+}
+
 .session-complete {
   display: flex;
   flex-direction: column;
@@ -110,6 +124,13 @@
   cursor: pointer;
 }
 
+.session-navigation {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.prev-button,
 .next-button {
   border: none;
   background: #2563eb;
@@ -119,6 +140,22 @@
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prev-button {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.prev-button:disabled {
+  background-color: #e2e8f0;
+  color: rgba(15, 23, 42, 0.4);
+  cursor: not-allowed;
+}
+
+.prev-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
 }
 
 .next-button:disabled {
@@ -177,8 +214,24 @@
     display: none;
   }
 
+  .session-navigation {
+    width: 100%;
+  }
+
+  .prev-button,
   .next-button {
-    display: none;
+    flex: 1;
+  }
+}
+
+@media (max-width: 420px) {
+  .session-navigation {
+    flex-direction: column;
+  }
+
+  .prev-button,
+  .next-button {
+    width: 100%;
   }
 }
 

@@ -5,7 +5,15 @@ import './FlashCard.css';
 const SWIPE_THRESHOLD = 120;
 const SWIPE_OUT_DURATION = 260;
 
-export default function FlashCard({ question, flipped, onFlip, onNext }) {
+export default function FlashCard({
+  question,
+  flipped,
+  onFlip,
+  onNext,
+  onPrev,
+  canGoNext,
+  canGoPrev
+}) {
   const [isDragging, setIsDragging] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -14,14 +22,13 @@ export default function FlashCard({ question, flipped, onFlip, onNext }) {
   const exitTimerRef = useRef(null);
   const cardRef = useRef(null);
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    return () => {
       if (exitTimerRef.current) {
         clearTimeout(exitTimerRef.current);
       }
-    },
-    []
-  );
+    };
+  }, []);
 
   const resetState = () => {
     startPointRef.current = null;
@@ -54,6 +61,22 @@ export default function FlashCard({ question, flipped, onFlip, onNext }) {
     setOffset({ x: deltaX, y: deltaY });
   };
 
+  const triggerSwipe = (direction, deltaY = 0, callback = onNext) => {
+    if (isExiting) return;
+
+    const travel = (cardRef.current?.offsetWidth ?? 320) * 1.5 * direction;
+    setIsExiting(true);
+    setIsDragging(false);
+    shouldBlockClick.current = true;
+    setOffset({ x: travel, y: deltaY });
+
+    exitTimerRef.current = setTimeout(() => {
+      exitTimerRef.current = null;
+      callback();
+      resetState();
+    }, SWIPE_OUT_DURATION);
+  };
+
   const completeDrag = (clientX, clientY) => {
     if (!startPointRef.current || isExiting) {
       resetState();
@@ -65,31 +88,26 @@ export default function FlashCard({ question, flipped, onFlip, onNext }) {
     const absX = Math.abs(deltaX);
 
     if (absX > SWIPE_THRESHOLD) {
-      const direction = deltaX > 0 ? 1 : -1;
       startPointRef.current = null;
-      triggerSwipe(direction, deltaY);
-    } else {
-      setIsDragging(false);
-      setOffset({ x: 0, y: 0 });
-      shouldBlockClick.current = false;
-      startPointRef.current = null;
-    }
-  };
 
-  const triggerSwipe = (direction, deltaY = 0) => {
-    if (isExiting) return;
+      if (deltaX < 0 && canGoNext) {
+        triggerSwipe(-1, deltaY, onNext);
+        return;
+      }
 
-    const travel = (cardRef.current?.offsetWidth ?? 320) * 1.5 * direction;
-    setIsExiting(true);
-    setIsDragging(false);
-    shouldBlockClick.current = true;
-    setOffset({ x: travel, y: deltaY });
+      if (deltaX > 0 && canGoPrev) {
+        triggerSwipe(1, deltaY, onPrev);
+        return;
+      }
 
-    exitTimerRef.current = setTimeout(() => {
-      exitTimerRef.current = null;
-      onNext();
       resetState();
-    }, SWIPE_OUT_DURATION);
+      return;
+    }
+
+    setIsDragging(false);
+    setOffset({ x: 0, y: 0 });
+    shouldBlockClick.current = false;
+    startPointRef.current = null;
   };
 
   const pointerProps = {
@@ -160,8 +178,11 @@ export default function FlashCard({ question, flipped, onFlip, onNext }) {
               event.preventDefault();
               onFlip();
             }
-            if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+            if (event.key === 'ArrowRight' && canGoNext) {
               onNext();
+            }
+            if (event.key === 'ArrowLeft' && canGoPrev) {
+              onPrev();
             }
           }}
         >
@@ -172,7 +193,7 @@ export default function FlashCard({ question, flipped, onFlip, onNext }) {
           </div>
           <div className="flashcard-face flashcard-back">
             <p>{question.answer}</p>
-            <span className="hint">Свайпните, чтобы перейти дальше</span>
+            <span className="hint">Свайпните влево, чтобы перейти дальше, или вправо — чтобы вернуться</span>
           </div>
         </div>
       </div>
@@ -189,9 +210,14 @@ FlashCard.propTypes = {
   }).isRequired,
   flipped: PropTypes.bool,
   onFlip: PropTypes.func.isRequired,
-  onNext: PropTypes.func.isRequired
+  onNext: PropTypes.func.isRequired,
+  onPrev: PropTypes.func.isRequired,
+  canGoNext: PropTypes.bool,
+  canGoPrev: PropTypes.bool
 };
 
 FlashCard.defaultProps = {
-  flipped: false
+  flipped: false,
+  canGoNext: true,
+  canGoPrev: true
 };
