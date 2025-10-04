@@ -143,6 +143,10 @@
     text-align: center;
   }
 
+  .session-info p {
+    display: none;
+  }
+
   .session-actions {
     flex-direction: column;
     justify-content: center;
@@ -152,7 +156,7 @@
   }
 
   .session-actions .ghost {
-    width: 100%;
+    display: none;
   }
 
   .progress {
@@ -170,12 +174,11 @@
   }
 
   .session-hint {
-    font-size: 0.9rem;
-    color: #64748b;
+    display: none;
   }
 
   .next-button {
-    width: 100%;
+    display: none;
   }
 }
 
