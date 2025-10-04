@@ -12,7 +12,7 @@ function shuffle(array) {
   return copy;
 }
 
-export default function CardSession({ questions }) {
+export default function CardSession({ questions, poolSize, selectionLabel }) {
   const [order, setOrder] = useState(() => shuffle(questions.map((_, idx) => idx)));
   const [current, setCurrent] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -39,14 +39,45 @@ export default function CardSession({ questions }) {
     setFlipped(false);
   }, [order.length]);
 
+  const goPrev = useCallback(() => {
+    setCurrent((prev) => {
+      const next = prev - 1;
+      if (next < 0) {
+        return prev;
+      }
+      return next;
+    });
+    setFlipped(false);
+  }, []);
+
   const restart = () => {
     setOrder(shuffle(questions.map((_, idx) => idx)));
     setCurrent(0);
     setFlipped(false);
   };
 
-  const progress = `${Math.min(current + 1, order.length)} / ${order.length}`;
-  const isCompleted = current >= order.length - 1 && flipped;
+  const progress = `${order.length === 0 ? 0 : Math.min(current + 1, order.length)} / ${order.length}`;
+  const isCompleted = order.length > 0 && current >= order.length - 1 && flipped;
+  const canGoPrev = current > 0;
+  const canGoNext = current < order.length - 1;
+
+  if (questions.length === 0) {
+    return (
+      <section className="card-session">
+        <header className="session-meta">
+          <div className="session-info">
+            <h2>Интервью-режим</h2>
+            <p>
+              Выберите темы и количество карточек выше, чтобы начать тренировку.
+            </p>
+          </div>
+        </header>
+        <div className="session-empty" role="status">
+          Для текущих фильтров нет карточек. Измените настройки, чтобы продолжить.
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="card-session">
@@ -54,6 +85,9 @@ export default function CardSession({ questions }) {
         <div className="session-info">
           <h2>Интервью-режим</h2>
           <p>Фокусируйтесь на одном вопросе за раз. Переверните карточку, чтобы свериться с ответом.</p>
+          <p className="session-summary">
+            Темы: <strong>{selectionLabel}</strong>. Карточек в сессии: {questions.length} из {poolSize}.
+          </p>
         </div>
         <div className="session-actions">
           <button type="button" onClick={restart} className="ghost">
@@ -73,6 +107,9 @@ export default function CardSession({ questions }) {
           flipped={flipped}
           onFlip={() => setFlipped((prev) => !prev)}
           onNext={goNext}
+          onPrev={goPrev}
+          canGoNext={canGoNext}
+          canGoPrev={canGoPrev}
         />
       </div>
 
@@ -84,12 +121,17 @@ export default function CardSession({ questions }) {
           </button>
         </div>
       ) : (
-        <div className="session-hint">Свайпните карту в сторону или воспользуйтесь кнопкой, чтобы перейти к следующему вопросу.</div>
+        <div className="session-hint">Свайпните карту влево, чтобы перейти к следующему вопросу, или вправо — чтобы вернуться назад.</div>
       )}
 
-      <button type="button" className="next-button" onClick={goNext} disabled={current >= order.length - 1}>
-        Следующий вопрос
-      </button>
+      <div className="session-navigation">
+        <button type="button" className="prev-button" onClick={goPrev} disabled={!canGoPrev}>
+          Предыдущий вопрос
+        </button>
+        <button type="button" className="next-button" onClick={goNext} disabled={!canGoNext}>
+          Следующий вопрос
+        </button>
+      </div>
     </section>
   );
 }
@@ -102,5 +144,12 @@ CardSession.propTypes = {
       question: PropTypes.string.isRequired,
       answer: PropTypes.string.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  poolSize: PropTypes.number,
+  selectionLabel: PropTypes.string
+};
+
+CardSession.defaultProps = {
+  poolSize: 0,
+  selectionLabel: '—'
 };

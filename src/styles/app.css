@@ -57,6 +57,94 @@
   min-height: 360px;
 }
 
+.card-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 20px;
+  padding: 24px;
+  background-color: #f8fafc;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-group h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.topic-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.topic-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background-color: white;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.topic-option input {
+  accent-color: #2563eb;
+}
+
+.topic-option:hover {
+  border-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.select-all {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.select-all:disabled {
+  cursor: default;
+  color: rgba(37, 99, 235, 0.4);
+}
+
+.count-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.count-control input {
+  width: 96px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  font-size: 1rem;
+}
+
+.count-control input:disabled {
+  background-color: #e2e8f0;
+  cursor: not-allowed;
+}
+
+.count-hint {
+  color: #475569;
+}
+
 @media (max-width: 600px) {
   .app-shell {
     padding: 24px 16px 40px;
@@ -64,5 +152,13 @@
 
   .app-header h1 {
     font-size: 1.75rem;
+  }
+
+  .card-settings {
+    padding: 20px 16px;
+  }
+
+  .topic-options {
+    gap: 10px 10px;
   }
 }
