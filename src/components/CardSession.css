@@ -27,12 +27,6 @@
   max-width: 520px;
 }
 
-.session-summary {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  color: #1e293b;
-}
-
 .session-actions {
   display: flex;
   align-items: center;
@@ -92,12 +86,6 @@
   z-index: 1;
 }
 
-.session-hint {
-  color: #475569;
-  text-align: center;
-  font-size: 0.95rem;
-}
-
 .session-empty {
   background-color: rgba(148, 163, 184, 0.16);
   border-radius: 16px;
@@ -124,50 +112,6 @@
   cursor: pointer;
 }
 
-.session-navigation {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.prev-button,
-.next-button {
-  border: none;
-  background: #2563eb;
-  color: white;
-  font-weight: 600;
-  padding: 12px 32px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.prev-button {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-.prev-button:disabled {
-  background-color: #e2e8f0;
-  color: rgba(15, 23, 42, 0.4);
-  cursor: not-allowed;
-}
-
-.prev-button:not(:disabled):hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
-}
-
-.next-button:disabled {
-  background-color: #cbd5f5;
-  cursor: not-allowed;
-}
-
-.next-button:not(:disabled):hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
-}
-
 @media (max-width: 768px) {
   .card-session {
     gap: 20px;
@@ -178,10 +122,6 @@
     gap: 16px;
     align-items: center;
     text-align: center;
-  }
-
-  .session-info p {
-    display: none;
   }
 
   .session-actions {
@@ -210,29 +150,6 @@
     right: 12px;
   }
 
-  .session-hint {
-    display: none;
-  }
-
-  .session-navigation {
-    width: 100%;
-  }
-
-  .prev-button,
-  .next-button {
-    flex: 1;
-  }
-}
-
-@media (max-width: 420px) {
-  .session-navigation {
-    flex-direction: column;
-  }
-
-  .prev-button,
-  .next-button {
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {

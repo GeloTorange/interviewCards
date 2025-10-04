@@ -54,13 +54,6 @@ export default function App() {
     return `${normalizedTopics.join('|')}|${cardCount}`;
   }, [selectedTopics, cardCount, topics]);
 
-  const selectionLabel = useMemo(() => {
-    if (selectedTopics.length === topics.length) {
-      return 'Все темы';
-    }
-    return selectedTopics.join(', ');
-  }, [selectedTopics, topics]);
-
   const toggleTopic = (topic) => {
     setSelectedTopics((prev) => {
       const exists = prev.includes(topic);
@@ -196,8 +189,6 @@ export default function App() {
             <CardSession
               key={sessionKey}
               questions={sessionQuestions}
-              poolSize={availableCount}
-              selectionLabel={selectionLabel}
             />
           </>
         )}
