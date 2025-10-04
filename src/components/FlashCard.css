@@ -1,6 +1,24 @@
+
 .flashcard-wrapper {
   perspective: 1200px;
   width: 100%;
+}
+
+.flashcard-motion {
+  position: relative;
+  width: 100%;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+.flashcard-motion.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.flashcard-motion.exiting {
+  opacity: 0;
 }
 
 .flashcard {
@@ -55,8 +73,13 @@
 }
 
 @media (max-width: 600px) {
+  .flashcard-motion {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
   .flashcard {
-    height: 280px;
+    height: 300px;
   }
 
   .flashcard-face {

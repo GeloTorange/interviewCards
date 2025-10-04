@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 24px;
   align-items: center;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .session-meta {
@@ -14,44 +17,79 @@
   flex-wrap: wrap;
 }
 
-.session-meta h2 {
+.session-info h2 {
   margin: 0 0 8px;
 }
 
-.session-meta p {
+.session-info p {
   margin: 0;
   color: #475569;
-  max-width: 560px;
+  max-width: 520px;
 }
 
 .session-actions {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
-.session-actions button {
-  border: none;
-  padding: 8px 16px;
+.session-actions .ghost {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 8px 18px;
   border-radius: 999px;
-  background-color: #0f172a;
-  color: white;
+  background-color: #f8fafc;
+  color: #0f172a;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.session-actions .ghost:hover {
+  background-color: #0f172a;
+  color: white;
+  border-color: #0f172a;
 }
 
 .progress {
   font-weight: 600;
   color: #0f172a;
+  min-width: 68px;
+  text-align: right;
 }
 
 .card-stage {
-  width: min(100%, 480px);
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 16px 32px;
+}
+
+.card-stage-shadow {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 82%;
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.15), rgba(148, 163, 184, 0));
+  border-radius: 28px;
+  transform: translateY(18px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card-stage > * {
+  position: relative;
+  z-index: 1;
 }
 
 .session-hint {
-  color: #64748b;
+  color: #475569;
   text-align: center;
+  font-size: 0.95rem;
 }
 
 .session-complete {
@@ -77,7 +115,7 @@
   background: #2563eb;
   color: white;
   font-weight: 600;
-  padding: 12px 24px;
+  padding: 12px 32px;
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -91,4 +129,75 @@
 .next-button:not(:disabled):hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+@media (max-width: 768px) {
+  .card-session {
+    gap: 20px;
+  }
+
+  .session-meta {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .session-actions {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-left: 0;
+    gap: 10px;
+  }
+
+  .session-actions .ghost {
+    width: 100%;
+  }
+
+  .progress {
+    width: 100%;
+    text-align: center;
+  }
+
+  .card-stage {
+    padding: 16px 0 24px;
+  }
+
+  .card-stage-shadow {
+    left: 12px;
+    right: 12px;
+  }
+
+  .session-hint {
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+
+  .next-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .session-info h2 {
+    font-size: 1.4rem;
+  }
+
+  .session-info p {
+    font-size: 0.95rem;
+  }
+
+  .session-actions {
+    gap: 8px;
+  }
+
+  .session-actions .ghost {
+    padding: 10px 16px;
+  }
+
+  .card-stage-shadow {
+    left: 0;
+    right: 0;
+  }
 }

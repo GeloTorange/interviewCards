@@ -51,21 +51,22 @@ export default function CardSession({ questions }) {
   return (
     <section className="card-session">
       <header className="session-meta">
-        <div>
-          <h2>Режим карточек</h2>
-          <p>Карточки не повторяются в рамках сессии. Нажмите на карточку, чтобы увидеть ответ.</p>
+        <div className="session-info">
+          <h2>Интервью-режим</h2>
+          <p>Фокусируйтесь на одном вопросе за раз. Переверните карточку, чтобы свериться с ответом.</p>
         </div>
         <div className="session-actions">
+          <button type="button" onClick={restart} className="ghost">
+            Перемешать
+          </button>
           <span className="progress" aria-live="polite">
             {progress}
           </span>
-          <button type="button" onClick={restart}>
-            Перемешать
-          </button>
         </div>
       </header>
 
       <div className="card-stage">
+        <div className="card-stage-shadow" aria-hidden="true" />
         <FlashCard
           key={activeQuestion?.id}
           question={activeQuestion}
@@ -83,7 +84,7 @@ export default function CardSession({ questions }) {
           </button>
         </div>
       ) : (
-        <div className="session-hint">Свайпните в сторону или нажмите кнопку ниже, чтобы перейти дальше.</div>
+        <div className="session-hint">Свайпните карту в сторону или воспользуйтесь кнопкой, чтобы перейти к следующему вопросу.</div>
       )}
 
       <button type="button" className="next-button" onClick={goNext} disabled={current >= order.length - 1}>
