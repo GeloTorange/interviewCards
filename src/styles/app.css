@@ -1,0 +1,68 @@
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: #475569;
+}
+
+.mode-switcher {
+  display: inline-flex;
+  padding: 4px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  gap: 4px;
+}
+
+.mode-switcher button {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mode-switcher button:hover {
+  background-color: rgba(148, 163, 184, 0.4);
+}
+
+.mode-switcher button.active {
+  background-color: #0f172a;
+  color: white;
+}
+
+.app-main {
+  min-height: 360px;
+}
+
+@media (max-width: 600px) {
+  .app-shell {
+    padding: 24px 16px 40px;
+  }
+
+  .app-header h1 {
+    font-size: 1.75rem;
+  }
+}
