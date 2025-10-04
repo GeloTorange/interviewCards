@@ -4,6 +4,7 @@ import './FlashCard.css';
 
 const SWIPE_THRESHOLD = 120;
 const SWIPE_OUT_DURATION = 260;
+const SWIPE_IN_DURATION = 280;
 
 export default function FlashCard({
   question,
@@ -16,6 +17,7 @@ export default function FlashCard({
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isEntering, setIsEntering] = useState(true);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const startPointRef = useRef(null);
   const shouldBlockClick = useRef(false);
@@ -30,6 +32,21 @@ export default function FlashCard({
     };
   }, []);
 
+  useEffect(() => {
+    if (!question) {
+      return undefined;
+    }
+
+    setIsEntering(true);
+    const timer = setTimeout(() => {
+      setIsEntering(false);
+    }, SWIPE_IN_DURATION);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [question?.id]);
+
   const resetState = () => {
     startPointRef.current = null;
     shouldBlockClick.current = false;
@@ -43,6 +60,7 @@ export default function FlashCard({
     startPointRef.current = { x: clientX, y: clientY };
     shouldBlockClick.current = false;
     setIsDragging(true);
+    setIsEntering(false);
   };
 
   const updateDrag = (clientX, clientY) => {
@@ -161,7 +179,7 @@ export default function FlashCard({
   }
 
   return (
-    <div className="flashcard-wrapper">
+    <div className={`flashcard-wrapper${isEntering ? ' entering' : ''}`}>
       <div
         className={`flashcard-motion ${isDragging ? 'dragging' : ''} ${isExiting ? 'exiting' : ''}`.trim()}
         style={motionStyle}

@@ -17,7 +17,7 @@ export default function App() {
   }, []);
   const [selectedTopics, setSelectedTopics] = useState(() => [...topics]);
   const [cardCount, setCardCount] = useState(() => Math.min(10, QUESTIONS.length));
-  const [filtersVisible, setFiltersVisible] = useState(true);
+  const [filtersVisible, setFiltersVisible] = useState(false);
 
   const total = useMemo(() => QUESTIONS.length, []);
 
@@ -117,7 +117,7 @@ export default function App() {
         </nav>
       </header>
 
-      <main className="app-main">
+      <main className={`app-main${mode === MODES.CARDS ? ' cards-mode' : ''}`}>
         {mode === MODES.LIST ? (
           <QuestionList questions={QUESTIONS} />
         ) : (

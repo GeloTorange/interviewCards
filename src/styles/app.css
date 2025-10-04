@@ -57,6 +57,12 @@
   min-height: 360px;
 }
 
+.app-main.cards-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .card-settings {
   display: flex;
   flex-direction: column;
@@ -70,6 +76,7 @@
 
 .card-settings.collapsed {
   gap: 12px;
+  padding: 20px 24px 16px;
 }
 
 .settings-header {
@@ -194,15 +201,29 @@
 
 @media (max-width: 600px) {
   .app-shell {
-    padding: 24px 16px 40px;
+    padding: 18px 16px 28px;
+    gap: 24px;
   }
 
   .app-header h1 {
     font-size: 1.75rem;
   }
 
+  .mode-switcher button {
+    padding: 6px 14px;
+  }
+
+  .app-main.cards-mode {
+    gap: 16px;
+  }
+
   .card-settings {
-    padding: 20px 16px;
+    padding: 18px 16px;
+    gap: 16px;
+  }
+
+  .card-settings.collapsed {
+    padding: 14px 16px 12px;
   }
 
   .topic-options {
