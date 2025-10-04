@@ -17,6 +17,7 @@ export default function App() {
   }, []);
   const [selectedTopics, setSelectedTopics] = useState(() => [...topics]);
   const [cardCount, setCardCount] = useState(() => Math.min(10, QUESTIONS.length));
+  const [filtersVisible, setFiltersVisible] = useState(true);
 
   const total = useMemo(() => QUESTIONS.length, []);
 
@@ -92,6 +93,10 @@ export default function App() {
     setCardCount(clamped);
   };
 
+  const toggleFiltersVisibility = () => {
+    setFiltersVisible((prev) => !prev);
+  };
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -124,47 +129,68 @@ export default function App() {
           <QuestionList questions={QUESTIONS} />
         ) : (
           <>
-            <section className="card-settings" aria-label="Настройки интервью-режима">
-              <div className="settings-group">
-                <h2>Темы для интервью</h2>
-                <div className="topic-options" role="group" aria-label="Выбор тем">
-                  {topics.map((topic) => (
-                    <label key={topic} className="topic-option">
-                      <input
-                        type="checkbox"
-                        checked={selectedTopics.includes(topic)}
-                        onChange={() => toggleTopic(topic)}
-                      />
-                      <span>{topic}</span>
-                    </label>
-                  ))}
-                </div>
+            <section className={`card-settings${filtersVisible ? '' : ' collapsed'}`} aria-label="Настройки интервью-режима">
+              <div className="settings-header">
+                <h2>Настройки</h2>
                 <button
                   type="button"
-                  className="select-all"
-                  onClick={selectAllTopics}
-                  disabled={selectedTopics.length === topics.length}
+                  onClick={toggleFiltersVisibility}
+                  className="filters-toggle"
+                  aria-expanded={filtersVisible}
+                  aria-controls="card-settings-content"
                 >
-                  Выбрать все темы
+                  {filtersVisible ? 'Скрыть фильтры' : 'Показать фильтры'}
                 </button>
               </div>
 
-              <div className="settings-group">
-                <label htmlFor="card-count">Количество карточек</label>
-                <div className="count-control">
-                  <input
-                    id="card-count"
-                    type="number"
-                    min="1"
-                    max={availableCount}
-                    value={availableCount === 0 ? 0 : cardCount}
-                    onChange={handleCardCountChange}
-                    disabled={availableCount === 0}
-                    inputMode="numeric"
-                  />
-                  <span className="count-hint">Доступно: {availableCount}</span>
+              {filtersVisible && (
+                <div className="settings-content" id="card-settings-content">
+                  <div className="settings-group">
+                    <h3>Темы для интервью</h3>
+                    <div className="topic-options" role="group" aria-label="Выбор тем">
+                      {topics.map((topic) => (
+                        <label key={topic} className="topic-option">
+                          <input
+                            type="checkbox"
+                            checked={selectedTopics.includes(topic)}
+                            onChange={() => toggleTopic(topic)}
+                          />
+                          <span>{topic}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      className="select-all"
+                      onClick={selectAllTopics}
+                      disabled={selectedTopics.length === topics.length}
+                    >
+                      Выбрать все темы
+                    </button>
+                  </div>
+
+                  <div className="settings-group">
+                    <label htmlFor="card-count" className="count-label">
+                      Количество карточек
+                      <span className="count-value" aria-live="polite">
+                        {availableCount === 0 ? 0 : cardCount}
+                      </span>
+                    </label>
+                    <div className="count-control">
+                      <input
+                        id="card-count"
+                        type="range"
+                        min={availableCount === 0 ? 0 : 1}
+                        max={availableCount}
+                        value={availableCount === 0 ? 0 : cardCount}
+                        onChange={handleCardCountChange}
+                        disabled={availableCount === 0}
+                      />
+                      <span className="count-hint">Доступно: {availableCount}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </section>
 
             <CardSession
